@@ -378,6 +378,21 @@ Deploy:
 flyctl deploy --verbose
 ```
 
+You should see:
+
+```sh
+Release v1 created
+Monitoring Deployment
+
+1 desired, 1 placed, 1 healthy, 0 unhealthy [health checks: 1 total, 1 passing]
+```
+
+And when you visit the App in your browser:
+https://gitea-demo.fly.dev/
+
+![gitea-demo-on-flyio](https://user-images.githubusercontent.com/194400/168806932-d5d405a6-4d3a-41e1-9ac1-038f083d74c9.png)
+
+
 
 <br /><br /><br />
 
