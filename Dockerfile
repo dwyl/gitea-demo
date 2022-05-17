@@ -72,7 +72,6 @@ ENV HOME=/app
 ENV MIX_ENV=prod
 ENV SECRET_KEY_BASE=nokey
 ENV PORT=4000
-ENV GOGS_URL=gogs-server.fly.dev
-ENV GOGS_SSH_PORT=10022
+ENV GITEA_URL=gitea-server.fly.dev
 
 CMD ["bin/app", "start"]

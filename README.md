@@ -214,7 +214,7 @@ file,
 locate the `defp deps do` section and add the following line:
 
 ```elixir
-{:gitea, "~> 1.0.1"},
+{:gitea, "~> 0.1.0"},
 ```
 
 Once you've saved your `mix.exs` file, 
@@ -303,7 +303,7 @@ def index(conn, _params) do
   repo_name = "hello-world"
   file_name = "README.md"
   {:ok, %{body: raw_html}} = 
-    gitea.remote_render_markdown_html(org_name, repo_name, file_name)
+    Gitea.remote_render_markdown_html(org_name, repo_name, file_name)
   render(conn, "index.html", html: raw_html)
 end
 ```
@@ -345,6 +345,37 @@ can be used to deploy to Fly.io:
 https://gitea-demo.fly.dev
 ![image](https://user-images.githubusercontent.com/194400/168398126-05c147ef-7fcc-4867-8a05-c89669027674.png)
 
+### Deployment Instructions:
+
+```sh
+mix release.init
+```
+
+> Borrow the init from an app that we've deployed before. 
+> e.g: 
+> https://github.com/dwyl/gitea-demo/pull/1/commits/9bb69a57364ac51e0ce5ba84106954d2c7a5377f
+
+Initialize the Fly.io config:
+
+
+```sh
+fly launch
+```
+
+> Select the relevant options.
+
+
+Setup environment variables:
+
+```sh
+flyctl secrets set GITEA_URL=gitea-server.fly.dev 
+flyctl secrets set GITEA_ACCESS_TOKEN=your-token-here
+```
+
+Deploy:
+```sh
+flyctl deploy --verbose
+```
 
 
 <br /><br /><br />
