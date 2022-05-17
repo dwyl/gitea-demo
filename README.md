@@ -370,6 +370,7 @@ Setup environment variables:
 ```sh
 flyctl secrets set GITEA_URL=gitea-server.fly.dev 
 flyctl secrets set GITEA_ACCESS_TOKEN=your-token-here
+flyctl secrets set SECRET_KEY_BASE=https://hexdocs.pm/phoenix/Mix.Tasks.Phx.Gen.Secret.html
 ```
 
 Deploy:
