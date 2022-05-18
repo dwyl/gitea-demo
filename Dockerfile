@@ -59,12 +59,14 @@ COPY assets assets
 RUN mix assets.deploy
 RUN mix phx.digest
 
-# copy source here if not using TailwindCSS
-COPY lib lib
+# Compile the release
+RUN mix compile
 
-# compile and build release
+# Changes to config/runtime.exs don't require recompiling the code
+COPY config/runtime.exs config/
+
 COPY rel rel
-RUN mix do compile, release
+RUN mix release
 
 ###
 ### Second Stage - Setup the Runtime Environment
@@ -77,7 +79,6 @@ FROM ${RUNNER_IMAGE}
 RUN apt-get update -y && apt-get install -y libstdc++6 openssl libncurses5 locales \
   && apt-get clean && rm -f /var/lib/apt/lists/*_*
 
-USER nobody
 WORKDIR "/app"
 RUN chown nobody /app
 
@@ -87,10 +88,9 @@ ENV MIX_ENV="prod"
 # Only copy the final release from the build stage
 COPY --from=builder --chown=nobody:root /app/_build/${MIX_ENV}/rel/app ./
 
+USER nobody
 
 ENV HOME=/app
-ENV MIX_ENV=prod
-ENV SECRET_KEY_BASE=nokey
 ENV PORT=4000
 ENV GITEA_URL=gitea-server.fly.dev
 
