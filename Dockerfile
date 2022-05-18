@@ -94,5 +94,9 @@ ENV SECRET_KEY_BASE=nokey
 ENV PORT=4000
 ENV GITEA_URL=gitea-server.fly.dev
 
+# Appended by flyctl
+ENV ECTO_IPV6 true
+ENV ERL_AFLAGS "-proto_dist inet6_tcp"
+
 # CMD ["bin/app", "start"]
 CMD ["/app/bin/server"]
