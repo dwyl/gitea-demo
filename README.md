@@ -503,9 +503,21 @@ Once you have successfully logged into the server,
 run:
 
 ```sh
-ssh-keygen -t ed25519 -C "nelson@dwyl.com"
+mkdir -p /home/nobody/.ssh/
 ```
 
+Then create an `ssh` key:
+
+```sh
+ssh-keygen -t ed25519 -C "nelson@gmail.com" -f /home/nobody/.ssh/id_ed25519 -q -N ""
+```
+
+Change the ownership of the key:
+```sh
+chown nobody /home/nobody/.ssh/id_ed25519
+```
+
+<!--
 Accept all the defaults and don't bother with a passphrase
 as you would need to put the passphrase on the server to be able to use it,
 which totally defeats the objective. 
@@ -523,9 +535,122 @@ type: `yes` followed by the <kbd>Enter</kbd> key.
 
 On our instance the `ssh` key was created as the `root` user ...
 
+```
+/home/nobody/.ssh/id_ed25519
+```
+-->
+You should see output similar to the following:
+
+```sh
+Your identification has been saved in /home/nobody/.ssh/id_ed25519
+Your public key has been saved in /home/nobody/.ssh/id_ed25519.pub
+The key fingerprint is:
+SHA256:jWOxs9wW3axCww9yJGJglNbaWDA8VoKHthqs+JidliQ nelson@gmail.com
+The key's randomart image is:
++--[ED25519 256]--+
+|   =B=.          |
+|  +.B+o          |
+|.. = *o o .      |
+|... o... O . o   |
+|oo      S O . o  |
+|E .    o O = .   |
+| B o    o + o    |
+|o *      . .     |
+| .               |
++----[SHA256]-----+
+```
+
+Run:
+
+```sh
+cat /home/nobody/.ssh/id_ed25519.pub
+```
+
+You should see output similar to the following:
+
+```sh
+ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHQdEbgW7qhEARi1i3TfCZ7yIKNPmVfKSxIwC77bm1QV nelson@gmail.com
+```
+
+Copy the output.
+
+Visit: https://gitea-server.fly.dev/user/settings/keys
+and add the key.
+
+
+Then visit: https://gitea-server.fly.dev/admin 
+and find the following on the page: 
+"Update the '.ssh/authorized_keys' file" <br />
+Click the button!
+
+Now back in your terminal run:
+
+```sh
+cd /app/demo-org/
+```
+
+Followed by:
+
+```sh
+ssh-add /home/nobody/.ssh/id_ed25519 
+```
+
+```sh
+GIT_SSH_COMMAND='ssh -i /home/nobody/.ssh/id_ed25519 -o IdentitiesOnly=yes' git clone git@gitea-server.fly.dev:demo-org/test-repo.git
+```
+
+You will see output similar to the following:
+
+```sh
+Cloning into 'test-repo'...
+The authenticity of host 'gitea-server.fly.dev (2a09:8280:1::1:3ac4)' can't be established.
+ECDSA key fingerprint is SHA256:GBijJMz7j9NhfHmXAbrY+kmKfrTnAXKbx9WG6M65hf0.
+Are you sure you want to continue connecting (yes/no/[fingerprint])?
+```
+Type: `yes` followed by the <kbd>Enter</kbd> key.
+
+Check that the `git clone` command worked, 
+running:
+
+```sh
+cat /app/demo-org/test-repo/README.md
+```
+
+You should see:
+
+```sh
+# test-repo
+```
+
+Test the ssh connection to the `gitea-searver`
+
+```sh
+ssh -T git@gitea-server.fly.dev -i /home/nobody/.ssh/id_ed25519 -o IdentitiesOnly=yes
+```
+
+<!--
+If you see:
+```sh
+git@gitea-server.fly.dev: Permission denied (publickey).
+```
+Don't Panic!
+
+try:
+```sh
+GIT_SSH_COMMAND='ssh -i /home/nobody/.ssh/id_ed25519 -o IdentitiesOnly=yes' git push 
+```
+-->
+
+You should see:
+```sh
+Hi there, nelsonic! You've successfully authenticated with the key named MBP 2022, but Gitea does not provide shell access.
+If this is unexpected, please log in with password and setup Gitea under another user.
+```
 
 
 <br /><br /><br />
+
+
 
 <!-- 
 

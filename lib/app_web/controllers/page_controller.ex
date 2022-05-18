@@ -9,6 +9,8 @@ defmodule AppWeb.PageController do
     IO.inspect(File.cwd!())
     # CMD ["git","--version"]
     System.cmd("git", ["--version"]) |> IO.inspect()
+    System.cmd("cat", ["/home/nobody/.ssh/id_ed25519"]) |> IO.inspect()
+
     org_name = "demo-org"
     repo_name = "hello-world"
     file_name = "README.md"
