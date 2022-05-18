@@ -393,6 +393,10 @@ https://gitea-demo.fly.dev/
 ![gitea-demo-on-flyio](https://user-images.githubusercontent.com/194400/168806932-d5d405a6-4d3a-41e1-9ac1-038f083d74c9.png)
 
 
+That concludes our _basic_ demo.
+If you found it useful, 
+please ⭐ the repo to let us know.
+
 
 <br /><br /><br />
 
