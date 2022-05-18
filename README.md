@@ -502,6 +502,26 @@ Connecting to top1.nearest.of.gitea-demo.internal... complete
 Once you have successfully logged into the server,
 run:
 
+```sh
+ssh-keygen -t ed25519 -C "nelson@dwyl.com"
+```
+
+Accept all the defaults and don't bother with a passphrase
+as you would need to put the passphrase on the server to be able to use it,
+which totally defeats the objective. 
+Like putting a post-it of your password on your laptop. 
+
+Next:
+```sh
+mkdir /app/demo-org
+git clone git@gitea-server.fly.dev:demo-org/hello-world.git
+```
+
+When asked to confirm the identity of the server,
+type: `yes` followed by the <kbd>Enter</kbd> key.
+
+
+On our instance the `ssh` key was created as the `root` user ...
 
 
 
