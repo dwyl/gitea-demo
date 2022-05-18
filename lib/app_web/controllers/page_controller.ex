@@ -12,9 +12,9 @@ defmodule AppWeb.PageController do
     file_name = "README.md"
   
     # # Git clone the remote repo:
-    # git_repo_url = Gitea.Helpers.remote_url_ssh(org_name, repo_name)
-    # local_path = Gitea.clone(git_repo_url)
-    # Logger.info("local_path: #{local_path}")
+    git_repo_url = Gitea.Helpers.remote_url_ssh(org_name, repo_name)
+    local_path = Gitea.clone(git_repo_url)
+    Logger.info("local_path: #{local_path}")
     # # Note: if the dir already exists it will not "throw" an error,
     # # but logger will output "[error] Gitea.clone/1 tried to clone ..."
     
