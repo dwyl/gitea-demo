@@ -87,11 +87,18 @@ RUN chown nobody /app
 ENV MIX_ENV="prod"
 
 # Only copy the final release from the build stage
-COPY --from=builder --chown=nobody:root /app/_build/${MIX_ENV}/rel/gitea-demo ./
+COPY --from=builder --chown=nobody:root /app/_build/${MIX_ENV}/rel ./
 
 USER nobody
 
-CMD ["/app/bin/server"]
 # Appended by flyctl
 ENV ECTO_IPV6 true
 ENV ERL_AFLAGS "-proto_dist inet6_tcp"
+
+# Create a symlink to the command that starts your application. This is required
+# since the release directory and start up script are named after the
+# application, and we don't know that name.
+RUN set -eux; \
+  ln -nfs /app/$(basename *)/bin/$(basename *) /app/entry
+
+CMD /app/entry start
