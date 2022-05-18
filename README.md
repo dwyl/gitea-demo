@@ -344,6 +344,10 @@ The `Dockerfile`, `fly.toml` and `config/runtime.exs` files
 can be used to deploy to Fly.io: 
 https://gitea-demo.fly.dev
 
+
+> The `Dockerfile` is inspired by:
+> https://github.com/fly-apps/hello_elixir/blob/main/Dockerfile
+
 ### Deployment Instructions:
 
 ```sh

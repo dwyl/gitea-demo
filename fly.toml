@@ -5,6 +5,9 @@ app = "gitea-demo"
 kill_signal = "SIGTERM"
 kill_timeout = 5
 
+[build.args]
+  GITEA_URL="gitea-demo.fly.dev"
+
 [env]
   LOG_LEVEL = "debug"
   PHX_HOST = "gitea-demo.fly.dev"

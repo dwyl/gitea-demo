@@ -34,6 +34,7 @@ RUN mix local.hex --force && \
 
 # set build ENV
 ENV MIX_ENV="prod"
+RUN echo $MIX_ENV
 
 # install mix dependencies
 COPY mix.exs mix.lock ./
@@ -87,6 +88,10 @@ USER nobody
 # Appended by flyctl
 ENV ECTO_IPV6 true
 ENV ERL_AFLAGS "-proto_dist inet6_tcp"
+
+
+ARG GITEA_URL
+RUN echo $GITEA_URL
 
 # Create a symlink to the command that starts your application. This is required
 # since the release directory and start up script are named after the
