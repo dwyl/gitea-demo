@@ -6,6 +6,7 @@ defmodule AppWeb.PageController do
   def index(conn, _params) do
     # debugging Fly.io user:
     System.cmd("whoami", []) |> IO.inspect()
+    IO.inspect(File.cwd!())
     org_name = "demo-org"
     repo_name = "hello-world"
     file_name = "README.md"
