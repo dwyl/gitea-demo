@@ -7,6 +7,8 @@ defmodule AppWeb.PageController do
     # debugging Fly.io user:
     System.cmd("whoami", []) |> IO.inspect()
     IO.inspect(File.cwd!())
+    # CMD ["git","--version"]
+    System.cmd("git", ["--version"]) |> IO.inspect()
     org_name = "demo-org"
     repo_name = "hello-world"
     file_name = "README.md"
