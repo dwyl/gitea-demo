@@ -489,6 +489,20 @@ Let's do that now!
 
 ## 8. Deploy to Fly.io [Part 2: `ssh`]
 
+Login to the Fly.io instance via the CLI:
+
+```sh
+fly ssh console
+```
+You should see output similar to the following:
+```sh
+Connecting to top1.nearest.of.gitea-demo.internal... complete
+```
+
+Once you have successfully logged into the server,
+run:
+
+
 
 
 <br /><br /><br />
