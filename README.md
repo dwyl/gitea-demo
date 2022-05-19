@@ -343,9 +343,8 @@ you can either chose
 The `Dockerfile`, `fly.toml` and `config/runtime.exs` files
 can be used to deploy to Fly.io: 
 https://gitea-demo.fly.dev
-![image](https://user-images.githubusercontent.com/194400/168398126-05c147ef-7fcc-4867-8a05-c89669027674.png)
 
-### Deployment Instructions:
+### Deployment Instructions:
 
 ```sh
 mix release.init
@@ -396,6 +395,100 @@ https://gitea-demo.fly.dev/
 That concludes our _basic_ demo.
 If you found it useful, 
 please ⭐ the repo to let us know.
+
+<br />
+
+## 7. Extended Example: _Update_ the `README.md` File using `gitea`! 📝
+
+Let's do something a bit more advanced: 
+update the `README.md` file 
+using `gitea` 
+from the `Phoenix` App!
+
+Open the `lib/app_web/controllers/page_controller.ex` <br />
+and replace the `index/2` function with the following:
+
+```elixir
+def index(conn, _params) do
+  org_name = "demo-org"
+  repo_name = "hello-world"
+  file_name = "README.md"
+
+  # Git clone the remote repo:
+  git_repo_url = Gitea.Helpers.remote_url_ssh(org_name, repo_name)
+  local_path = Gitea.clone(git_repo_url)
+  Logger.info("local_path: #{local_path}")
+  # Note: if the dir already exists it will not "throw" an error,
+  # but logger will output "[error] Gitea.clone/1 tried to clone ..."
+  
+  # Read the contents of the local version of README.md
+  {:ok, text} = Gitea.local_file_read(org_name, repo_name, file_name)
+  lines = String.split(text, "\n")
+
+  # Current date time e.g. "2022-05-17 12:42"
+  now = DateTime.utc_now |> DateTime.to_string |> String.split(".") |> List.first
+
+  # Prepare content to be written:
+  content = 
+    # Delete the last line from lines:
+    List.delete_at(lines, length(lines)-1) 
+    # Add "last updated #{now}" to the lines:
+    |> Enum.concat(["Last updated #{now}"])
+    # Join to make a string:
+    |> Enum.join("\n")
+
+  # Write to the *local* version of the README.md
+  Gitea.local_file_write_text(org_name, repo_name, file_name, content)
+  
+  # Commit the changes:
+  {:ok, msg} = Gitea.commit(org_name, repo_name, 
+    %{message: "last updated #{now}", full_name: "Al Ex", email: "alex@dwyl.co"})
+  Logger.info(msg)
+
+  # Push the changes to the remote:
+  Gitea.push(org_name, repo_name)
+
+  # Now, finally read back the updated README.md
+  {:ok, %{body: raw_html}} = 
+    Gitea.remote_render_markdown_html(org_name, repo_name, file_name)
+  render(conn, "index.html", html: raw_html)
+end
+```
+
+Save the file and run the `Phoenix` server:
+```sh
+mix phx.server
+```
+
+
+Now when you refresh the homepage of the app: 
+http://localhost:4000/ <br />
+You will see something similar to the following:
+
+![gitea-demo-homepage-updated](https://user-images.githubusercontent.com/194400/169069757-754dc222-fc0d-47a7-83dd-0889bfbe7b8d.png)
+
+And if you view the repository on the `Gitea` Server:
+https://gitea-server.fly.dev/demo-org/hello-world <br />
+You will see that it was updated:
+![gitea-repo-updaetd](https://user-images.githubusercontent.com/194400/169069920-37014556-2291-482a-bde3-3119bccd3db3.png)
+
+#### 9 Seconds to Update and Re-render a Markdown File? ⏳
+
+You may have noticed that the round-trip 
+to update the `README.md` on the remote `Gitea` repo
+takes quite a few seconds. 
+This is because the server is quite far away, 
+relatively speaking ...
+If we deploy this demo to `Fly.io`
+so that it's on the same server cluster 
+as the https://gitea-server.fly.dev
+then the round-trip time should be _considerably_ faster.
+Let's do that now!
+
+<br />
+
+## 8. Deploy to Fly.io [Part 2: `ssh`]
+
 
 
 <br /><br /><br />

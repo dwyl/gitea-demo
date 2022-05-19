@@ -32,4 +32,8 @@ app-*.tar
 npm-debug.log
 /assets/node_modules/
 
+# Don't accidentally commit real environment variables
 .env
+
+# Temporary files, for example, from tests.
+/tmp/

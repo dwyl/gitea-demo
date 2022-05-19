@@ -53,7 +53,7 @@ defmodule App.MixProject do
       {:plug_cowboy, "~> 2.5"},
 
       # The star of the show! github.com/dwyl/gitea
-      {:gitea, "~> 1.0.0"},
+      {:gitea, "~> 1.0.2"},
 
       # Check test coverage: github.com/parroty/excoveralls
       {:excoveralls, "~> 0.14.4", only: :test, runtime: false},
