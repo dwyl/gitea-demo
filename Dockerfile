@@ -81,6 +81,10 @@ COPY keys/id_ed25519 /home/nobody/.ssh/
 # add know host gitea server
 RUN ssh-keyscan -H gitea-server.fly.dev > /home/nobody/.ssh/known_hosts 
 RUN chown nobody /home/nobody/.ssh/
+RUN chown nobody /home/nobody/.ssh/id_ed25519
+RUN chmod 600 /home/nobody/.ssh/id_ed25519
+# RUN ssh -T git@gitea-server.fly.dev -i /home/nobody/.ssh/id_ed25519 -o IdentitiesOnly=yes
+
 
 WORKDIR "/app"
 RUN chown nobody /app
