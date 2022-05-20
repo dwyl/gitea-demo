@@ -26,14 +26,11 @@ using the
 # _Why_? 🤷
 
 We love having _detailed docs and **examples**_
-that explain _exactly_ how to get up-and-running. <br />
+that explain _exactly_ how to get up-and-running. 😍 <br />
 **_Comprehensive_ docs/tutorials**
-are a _gift_ to our future selves and teammates. 🎁 
-They allow us to get up-to-speed
-or remember what's going on
-especially when returning to a project after a while.
+are a _gift_ to our future selves and teammates. 🎁  <br />
 We constantly refer back to them 
-and update them when required.
+and update them when required. <br />
 If you find them useful, please ⭐ the repo to let us know.
 
 # _What_? 💭
