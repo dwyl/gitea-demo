@@ -3,13 +3,20 @@ defmodule AppWeb.PageController do
 
   require Logger
 
+
+  def init(conn, _params) do
+    render(conn, "init.html")
+    
+  end
+
+
   def index(conn, _params) do
-    # debugging Fly.io user:
-    System.cmd("whoami", []) |> IO.inspect()
-    IO.inspect(File.cwd!())
-    # CMD ["git","--version"]
-    System.cmd("git", ["--version"]) |> IO.inspect()
-    System.cmd("cat", ["/home/nobody/.ssh/id_ed25519"]) |> IO.inspect()
+    # # debugging Fly.io user:
+    # System.cmd("whoami", []) |> IO.inspect()
+    # IO.inspect(File.cwd!())
+    # # CMD ["git","--version"]
+    # System.cmd("git", ["--version"]) |> IO.inspect()
+    # System.cmd("cat", ["/home/nobody/.ssh/id_ed25519"]) |> IO.inspect()
 
     org_name = "demo-org"
     repo_name = "hello-world"
@@ -54,4 +61,5 @@ defmodule AppWeb.PageController do
       Gitea.remote_render_markdown_html(org_name, repo_name, file_name)
     render(conn, "index.html", html: raw_html)
   end
+
 end

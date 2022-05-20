@@ -74,6 +74,7 @@ FROM ${RUNNER_IMAGE}
 RUN apt-get update -y && apt-get install -y build-essential libstdc++6 openssl libncurses5 git \
   && apt-get clean && rm -f /var/lib/apt/lists/*_*
 
+RUN mkdir -p /home/nobody/.ssh/
 WORKDIR "/app"
 RUN chown nobody /app
 
@@ -88,10 +89,6 @@ USER nobody
 # Appended by flyctl
 ENV ECTO_IPV6 true
 ENV ERL_AFLAGS "-proto_dist inet6_tcp"
-
-
-ARG GITEA_URL
-RUN echo $GITEA_URL
 
 # Create a symlink to the command that starts your application. This is required
 # since the release directory and start up script are named after the
