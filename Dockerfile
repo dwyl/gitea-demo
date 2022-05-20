@@ -75,28 +75,23 @@ RUN apt-get update -y && apt-get install -y build-essential libstdc++6 openssl l
   && apt-get clean && rm -f /var/lib/apt/lists/*_*
 
 # Create dir for ssh key
-RUN mkdir -p /home/nobody/.ssh/
+RUN mkdir -p /root/.ssh/
 # copy the keys you've created on your machine
-COPY keys/id_ed25519 /home/nobody/.ssh/      
-# Update permissions                                         
-RUN chown nobody /home/nobody/.ssh/
-RUN chown nobody /home/nobody/.ssh/id_ed25519
-RUN chmod 600 /home/nobody/.ssh/id_ed25519
+COPY keys/id_ed25519 /root/.ssh/      
+# Permissions
+RUN chmod 600 /root/.ssh/id_ed25519
 
 # add know host gitea server
-RUN ssh-keyscan -H gitea-server.fly.dev > /home/nobody/.ssh/known_hosts 
+RUN ssh-keyscan -H gitea-server.fly.dev > /root/.ssh/known_hosts 
 # RUN ssh -T git@gitea-server.fly.dev -i /home/nobody/.ssh/id_ed25519 -o IdentitiesOnly=yes
 
 WORKDIR "/app"
-RUN chown nobody /app
 
 # set runner ENV
 ENV MIX_ENV="prod"
 
 # Only copy the final release from the build stage
-COPY --from=builder --chown=nobody:root /app/_build/${MIX_ENV}/rel ./
-
-USER nobody
+COPY --from=builder /app/_build/${MIX_ENV}/rel ./
 
 # Appended by flyctl
 ENV ECTO_IPV6 true
