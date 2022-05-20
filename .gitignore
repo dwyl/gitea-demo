@@ -38,3 +38,6 @@ npm-debug.log
 
 # Temporary files, for example, from tests.
 /tmp/
+
+# SSH Keys
+keys/*

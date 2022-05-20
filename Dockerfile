@@ -77,7 +77,7 @@ RUN apt-get update -y && apt-get install -y build-essential libstdc++6 openssl l
 # Create dir for ssh key
 RUN mkdir -p /home/nobody/.ssh/
 # copy the keys you've created on your machine
-# COPY keys/id_ed25519 /root/.ssh                                               
+COPY keys/id_ed25519 /home/nobody/.ssh/                                               
 # add know host gitea server
 RUN ssh-keyscan -H gitea-server.fly.dev > /home/nobody/.ssh/known_hosts 
 
