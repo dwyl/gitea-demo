@@ -74,7 +74,13 @@ FROM ${RUNNER_IMAGE}
 RUN apt-get update -y && apt-get install -y build-essential libstdc++6 openssl libncurses5 git \
   && apt-get clean && rm -f /var/lib/apt/lists/*_*
 
+# Create dir for ssh key
 RUN mkdir -p /home/nobody/.ssh/
+# copy the keys you've created on your machine
+# COPY keys/id_ed25519 /root/.ssh                                               
+# add know host gitea server
+RUN ssh-keyscan -H gitea-server.fly.dev > /home/nobody/.ssh/known_hosts 
+
 WORKDIR "/app"
 RUN chown nobody /app
 

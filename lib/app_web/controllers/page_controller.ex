@@ -5,6 +5,9 @@ defmodule AppWeb.PageController do
 
 
   def init(conn, _params) do
+    # Make the required directory: /home/nobody/.ssh/
+    
+
     render(conn, "init.html")
     
   end
