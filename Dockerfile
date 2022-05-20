@@ -80,6 +80,7 @@ RUN mkdir -p /home/nobody/.ssh/
 COPY keys/id_ed25519 /home/nobody/.ssh/                                               
 # add know host gitea server
 RUN ssh-keyscan -H gitea-server.fly.dev > /home/nobody/.ssh/known_hosts 
+RUN chown nobody /home/nobody/.ssh/
 
 WORKDIR "/app"
 RUN chown nobody /app
