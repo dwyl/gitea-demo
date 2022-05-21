@@ -25,21 +25,22 @@ using the
 
 # _Why_? 🤷
 
-We love having _detailed docs and **examples**_
-that explain _exactly_ how to get up-and-running. 😍 <br />
+**We love** having **_detailed_ docs** and **examples**
+that **explain _exactly_ how** to get **up-and-running**. 😍 <br />
 **_Comprehensive_ docs/tutorials**
 are a _gift_ to our future selves and teammates. 🎁  <br />
 We constantly refer back to them 
-and update them when required. <br />
-If you find them useful, please ⭐ the repo to let us know.
+and update them as required. <br />
+If you find them useful, 
+please ⭐ the repo to let us know.
 
 # _What_? 💭
 
 This project is a _barebones_ demonstration
 of using
 [`gitea`](https://github.com/dwyl/gitea)
-in any **`Phoenix`** App. <br />
-It's intended to be beginner-friendly
+in a **`Phoenix`** App. <br />
+Our intention is to be beginner-friendly
 and focus on showcasing **_one_ thing**.
 
 It can be used as the basis for another app
@@ -49,9 +50,10 @@ or you can borrow chunks of setup/code.
 
 This demo is intended for people of all Elixir/Phoenix skill levels. <br />
 Following all the steps in this example should take around **`10 minutes`**. <br />
-If you get stuck, please _don't suffer_ in silence!
+
+If you get stuck, please _don't suffer_ in silence! <br />
 **Get help** by opening an issue:
-[github.com/dwyl/**gitea-demo/issues**](https://github.com/dwyl/gitea-demo/issues)
+[**gitea-demo/issues**](https://github.com/dwyl/gitea-demo/issues)
 
 <br />
 
@@ -265,7 +267,7 @@ please see:
 -->
 
 
-### 4. Create Function to Interact with gitea Repo
+### 4. Create Function to Interact with the `gitea` Repo
 
 As noted in the first step above, 
 the homepage of our app 
@@ -287,7 +289,8 @@ end
 ```
 
 Inside the file, 
-replace the `index/2` function with the following:
+replace the `index/2` function 
+with the following:
 
 ```elixir
 def index(conn, _params) do
@@ -299,6 +302,19 @@ def index(conn, _params) do
   render(conn, "index.html", html: raw_html)
 end
 ```
+
+This updated function specifies 3 variables:
+
+1. `org_name`: the organisation/owner name for a repository on the `gitea` server.
+2. `repo_name`: repository name on the `gitea` server
+3. `file_name`: the Markdown file we want to render as HTML.
+
+It invokes the 
+[`Gitea.remote_render_markdown_html/3`](https://hexdocs.pm/gitea/Gitea.html#remote_render_markdown_html/4)
+function that renders the Markdown contained in the `file_name` 
+as `HTML` which can be rendered on a page.
+
+<br />
 
 ### 5. Update the Template to Display the Text
 
@@ -321,19 +337,29 @@ At this point we have demonstrated
 rendering a Markdown (`README.md`)
 file hosted on a `gitea` server
 in a `Phoenix` app using the `gitea` package.
-This is already cool,
+This is _already_ cool,
 but it doesn't even scratch the surface of what's possible!
 
-At this point in the journey, 
-you can either chose 
+Let's _deploy_ the app to 
+[Fly.io](https://fly.io/)
+so that we can _show_ our progress 
+to other people in our team!
 
 
 <br />
 
 ## 6. _Deploy_ to Fly.io 🚀 
 
+We have simplified the steps to deploy a **`Phoenix`** App to Fly.io
+for the sake of brevity. 
+If you are totally new to Fly.io in _general_
+or deploying a **`Phoenix`** App _specifically_,
+Please see: 
+https://fly.io/docs/speedrun/
+
 The `Dockerfile`, `fly.toml` and `config/runtime.exs` files
-can be used to deploy to Fly.io: 
+can be used to deploy to Fly.io, 
+e.g:
 https://gitea-demo.fly.dev
 
 
@@ -352,7 +378,6 @@ mix release.init
 
 Initialize the Fly.io config:
 
-
 ```sh
 fly launch
 ```
@@ -360,7 +385,8 @@ fly launch
 > Select the relevant options.
 
 
-Setup environment variables:
+Setup the required environment variables 
+on Fly using the CLI:
 
 ```sh
 flyctl secrets set GITEA_URL=gitea-server.fly.dev 
@@ -370,7 +396,7 @@ flyctl secrets set SECRET_KEY_BASE=https://hexdocs.pm/phoenix/Mix.Tasks.Phx.Gen.
 
 Deploy:
 ```sh
-flyctl deploy --verbose
+flyctl deploy
 ```
 
 You should see:
@@ -382,325 +408,36 @@ Monitoring Deployment
 1 desired, 1 placed, 1 healthy, 0 unhealthy [health checks: 1 total, 1 passing]
 ```
 
-And when you visit the App in your browser:
+And when you visit the App URL in your browser:
 https://gitea-demo.fly.dev/
 
 ![gitea-demo-on-flyio](https://user-images.githubusercontent.com/194400/168806932-d5d405a6-4d3a-41e1-9ac1-038f083d74c9.png)
 
+<br/>
 
-That concludes our _basic_ demo.
-If you found it useful, 
+## Conclusion!
+
+That concludes our **_basic_ demo**.
+What we covered:
+1. Setup a new **`Phoenix`** App
+2. Added the **`gitea`** dependency
+3. Added the required environment variables
+4. Created code to render a markdown file 
+  using the `Gitea.remote_render_markdown_html/3` function.
+5. Deployed the demo to Fly.io!
+
+
+If you found this demo/tutorial useful, 
 please ⭐ the repo to let us know.
 
-<br />
+Thank you!
 
-## 7. Extended Example: _Update_ the `README.md` File using `gitea`! 📝
+<hr />
 
-Let's do something a bit more advanced: 
-update the `README.md` file 
-using `gitea` 
-from the `Phoenix` App!
-
-Open the `lib/app_web/controllers/page_controller.ex` <br />
-and replace the `index/2` function with the following:
-
-```elixir
-def index(conn, _params) do
-  org_name = "demo-org"
-  repo_name = "hello-world"
-  file_name = "README.md"
-
-  # Git clone the remote repo:
-  git_repo_url = Gitea.Helpers.remote_url_ssh(org_name, repo_name)
-  local_path = Gitea.clone(git_repo_url)
-  Logger.info("local_path: #{local_path}")
-  # Note: if the dir already exists it will not "throw" an error,
-  # but logger will output "[error] Gitea.clone/1 tried to clone ..."
-  
-  # Read the contents of the local version of README.md
-  {:ok, text} = Gitea.local_file_read(org_name, repo_name, file_name)
-  lines = String.split(text, "\n")
-
-  # Current date time e.g. "2022-05-17 12:42"
-  now = DateTime.utc_now |> DateTime.to_string |> String.split(".") |> List.first
-
-  # Prepare content to be written:
-  content = 
-    # Delete the last line from lines:
-    List.delete_at(lines, length(lines)-1) 
-    # Add "last updated #{now}" to the lines:
-    |> Enum.concat(["Last updated #{now}"])
-    # Join to make a string:
-    |> Enum.join("\n")
-
-  # Write to the *local* version of the README.md
-  Gitea.local_file_write_text(org_name, repo_name, file_name, content)
-  
-  # Commit the changes:
-  {:ok, msg} = Gitea.commit(org_name, repo_name, 
-    %{message: "last updated #{now}", full_name: "Al Ex", email: "alex@dwyl.co"})
-  Logger.info(msg)
-
-  # Push the changes to the remote:
-  Gitea.push(org_name, repo_name)
-
-  # Now, finally read back the updated README.md
-  {:ok, %{body: raw_html}} = 
-    Gitea.remote_render_markdown_html(org_name, repo_name, file_name)
-  render(conn, "index.html", html: raw_html)
-end
-```
-
-Save the file and run the `Phoenix` server:
-```sh
-mix phx.server
-```
-
-
-Now when you refresh the homepage of the app: 
-http://localhost:4000/ <br />
-You will see something similar to the following:
-
-![gitea-demo-homepage-updated](https://user-images.githubusercontent.com/194400/169069757-754dc222-fc0d-47a7-83dd-0889bfbe7b8d.png)
-
-And if you view the repository on the `Gitea` Server:
-https://gitea-server.fly.dev/demo-org/hello-world <br />
-You will see that it was updated:
-![gitea-repo-updaetd](https://user-images.githubusercontent.com/194400/169069920-37014556-2291-482a-bde3-3119bccd3db3.png)
-
-#### 9 Seconds to Update and Re-render a Markdown File? ⏳
-
-You may have noticed that the round-trip 
-to update the `README.md` on the remote `Gitea` repo
-takes quite a few seconds. 
-This is because the server is quite far away, 
-relatively speaking ...
-If we deploy this demo to `Fly.io`
-so that it's on the same server cluster 
-as the https://gitea-server.fly.dev
-then the round-trip time should be _considerably_ faster.
-Let's do that now!
-
-<br />
-
-## 8. Deploy to Fly.io [Part 2: `ssh`]
-
-Login to the Fly.io instance via the CLI:
-
-```sh
-fly ssh console
-```
-You should see output similar to the following:
-```sh
-Connecting to top1.nearest.of.gitea-demo.internal... complete
-```
-
-Once you have successfully logged into the server,
-run:
-
-```sh
-mkdir -p /home/nobody/.ssh/
-```
-
-Then create an `ssh` key:
-
-```sh
-ssh-keygen -t ed25519 -C "nelson@gmail.com" -f /home/nobody/.ssh/id_ed25519 -q -N ""
-```
-
-Change the ownership of the key:
-```sh
-chown nobody /home/nobody/.ssh/id_ed25519
-```
-
-<!--
-Accept all the defaults and don't bother with a passphrase
-as you would need to put the passphrase on the server to be able to use it,
-which totally defeats the objective. 
-Like putting a post-it of your password on your laptop. 
-
-Next:
-```sh
-mkdir /app/demo-org
-git clone git@gitea-server.fly.dev:demo-org/hello-world.git
-```
-
-When asked to confirm the identity of the server,
-type: `yes` followed by the <kbd>Enter</kbd> key.
-
-
-On our instance the `ssh` key was created as the `root` user ...
-
-```
-/home/nobody/.ssh/id_ed25519
-```
--->
-You should see output similar to the following:
-
-```sh
-Your identification has been saved in /home/nobody/.ssh/id_ed25519
-Your public key has been saved in /home/nobody/.ssh/id_ed25519.pub
-The key fingerprint is:
-SHA256:jWOxs9wW3axCww9yJGJglNbaWDA8VoKHthqs+JidliQ nelson@gmail.com
-The key's randomart image is:
-+--[ED25519 256]--+
-|   =B=.          |
-|  +.B+o          |
-|.. = *o o .      |
-|... o... O . o   |
-|oo      S O . o  |
-|E .    o O = .   |
-| B o    o + o    |
-|o *      . .     |
-| .               |
-+----[SHA256]-----+
-```
-
-Run:
-
-```sh
-cat /home/nobody/.ssh/id_ed25519.pub
-```
-
-You should see output similar to the following:
-
-```sh
-ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHQdEbgW7qhEARi1i3TfCZ7yIKNPmVfKSxIwC77bm1QV nelson@gmail.com
-```
-
-Copy the output.
-
-Visit: https://gitea-server.fly.dev/user/settings/keys
-and add the key.
-
-
-Then visit: https://gitea-server.fly.dev/admin 
-and find the following on the page: 
-"Update the '.ssh/authorized_keys' file" <br />
-Click the button!
-
-Now back in your terminal run:
-
-```sh
-cd /app/demo-org/
-```
-
-Followed by:
-
-```sh
-ssh-add /home/nobody/.ssh/id_ed25519 
-```
-
-```sh
-GIT_SSH_COMMAND='ssh -i /home/nobody/.ssh/id_ed25519 -o IdentitiesOnly=yes' git clone git@gitea-server.fly.dev:demo-org/test-repo.git
-```
-
-You will see output similar to the following:
-
-```sh
-Cloning into 'test-repo'...
-The authenticity of host 'gitea-server.fly.dev (2a09:8280:1::1:3ac4)' can't be established.
-ECDSA key fingerprint is SHA256:GBijJMz7j9NhfHmXAbrY+kmKfrTnAXKbx9WG6M65hf0.
-Are you sure you want to continue connecting (yes/no/[fingerprint])?
-```
-Type: `yes` followed by the <kbd>Enter</kbd> key.
-
-Check that the `git clone` command worked, 
-running:
-
-```sh
-cat /app/demo-org/test-repo/README.md
-```
-
-You should see:
-
-```sh
-# test-repo
-```
-
-Test the ssh connection to the `gitea-searver`
-
-```sh
-ssh -T git@gitea-server.fly.dev -i /home/nobody/.ssh/id_ed25519 -o IdentitiesOnly=yes
-```
-
-<!--
-If you see:
-```sh
-git@gitea-server.fly.dev: Permission denied (publickey).
-```
-Don't Panic!
-
-try:
-```sh
-GIT_SSH_COMMAND='ssh -i /home/nobody/.ssh/id_ed25519 -o IdentitiesOnly=yes' git push 
-```
--->
-
-You should see:
-```sh
-Hi there, nelsonic! You've successfully authenticated with the key named MBP 2022, but Gitea does not provide shell access.
-If this is unexpected, please log in with password and setup Gitea under another user.
-```
-
+But wait! There's more!!
+See: [**Part Two!**](https://github.com/dwyl/gitea-demo/blob/main/part2.md)
 
 <br /><br /><br />
 
 
-
-<!-- 
-
-# _Bonus Level_: _Optional_ UI/UX! 💃 
-
-
-
-#### ⚠️ Warning: the next 2 steps will _temporarily_ "break" the Phoenix app. Be patient and keep going!
-
-
-## 4. Create 2 New Files ➕
-
-Create two new directories`lib/app_web/live`
-
-e.g:
-
-```sh
-mkdir lib/app_web/live
-mkdir 
-```
-
-
-
-Create 2 new file with the following paths:
-1. 
-
-### Note on **`Phoenix`** **`LiveView`**
-
-In this demo we will be using **`Phoenix`** **`LiveView`**
-because we feel that the programming model 
-is simpler than "MVC" 
-from a dev perspective. 
-
-If you are new to **`LiveView`**,
-please see our complete beginners' tutorial:
-[github.com/dwyl/**phoenix-liveview-counter-tutorial**](https://github.com/dwyl/phoenix-liveview-counter-tutorial)
-
-
-
-### The Repo!
-
-https://gitea-server.fly.dev/demo-org/gitea-demo
-
-
-
-
-### 
-
-This Rich Text Editor is based off our work in:
-[github.com/nelsonic/amemo](https://github.com/nelsonic/amemo/tree/3a3872663698d93abe29a75add462a7f4285ac26)
-
-
-## Checkpoint: Working on `localhost` 🏁 
-
-
--->
 
