@@ -5,18 +5,23 @@ we focussed on simply rendering
 a `README.md` file hosted on `Gitea` 
 in our **`Phoenix`** App.
 
-Next we are going to do 
-something a bit more advanced: 
-_update_ the `README.md` file 
-using `gitea` 
-from the `Phoenix` App!
+_Next_ we are going to do 
+something a bit more advanced ...
 
+## Prerequisites 
 
-## 7. _Update_ the `README.md` File using `gitea`! 📝
+For the next section to work,
+you will need to add your **`public` SSH key**
+to your **`Gitea`** server instance. 
+Please see: 
+[gitea-server#6-add-ssh-key](https://github.com/dwyl/gitea-server#6-add-ssh-key) 
+for instructions.
 
+<br />
 
+## 7. _Update_ the `README.md` file using `gitea`! 📝
 
-Open the `lib/app_web/controllers/page_controller.ex` <br />
+Open the `lib/app_web/controllers/page_controller.ex` file <br />
 and replace the `index/2` function with the following:
 
 ```elixir
@@ -88,7 +93,10 @@ You will see that it was updated:
 You may have noticed that the round-trip 
 to update the `README.md` on the remote `Gitea` repo
 takes quite a few seconds. 
-This is because the server is quite far away, 
+This is because 
+**(a)** this new code is making **_four_ API requests**
+and 
+**(b)** the **server** is quite **far away**, 
 relatively speaking ...
 If we deploy this demo to `Fly.io`
 so that it's on the same server cluster 
