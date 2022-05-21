@@ -23,6 +23,8 @@ jobs:
       run: mkdir keys
     - name: Create keys/id_ed25519 for Deployment
       run: echo "$SSH_PRIVATE_KEY" > keys/id_ed25519
+    - name: Confirm the file was created
+      run: ls -lath keys
     - name: Echo the contents of the file for testing
       run: cat keys/id_ed25519
     - name: Set up Elixir
