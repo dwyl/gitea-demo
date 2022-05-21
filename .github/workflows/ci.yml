@@ -19,14 +19,11 @@ jobs:
       run: |
           git config --global user.name "Al Ex"
           git config --global user.email "c@t.co"
-    - name: Create /keys directory
-      run: mkdir keys
-    - name: Create keys/id_ed25519 for Deployment
-      run: echo "$SSH_PRIVATE_KEY" > keys/id_ed25519
-    - name: Confirm the file was created
-      run: ls -lath keys
-    - name: Echo the contents of the file for testing
-      run: cat keys/id_ed25519
+    - name: Make /keys dir, Create ssh key & Confirm it exists
+      run: | 
+          mkdir keys
+          echo "$SSH_PRIVATE_KEY" > keys/id_ed25519
+          ls -lath keys
     - name: Set up Elixir
       uses: erlef/setup-elixir@885971a72ed1f9240973bd92ab57af8c1aa68f24
       with:
@@ -61,7 +58,14 @@ jobs:
     env:
       FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
     steps:
+      - name: Make /keys dir, Create ssh key & Confirm it exists
+        run: |
+          mkdir keys
+          echo "$SSH_PRIVATE_KEY" > keys/id_ed25519
+          ls -lath keys
       - uses: actions/checkout@v2
       - uses: superfly/flyctl-actions@1.1
         with:
           args: "deploy"
+      
+      
