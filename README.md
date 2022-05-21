@@ -233,19 +233,14 @@ See:
 [**`.env_sample`**](https://github.com/dwyl/gitea/blob/main/.env_sample)
 for a sample.
 
-1. `gitea_URL` - the domain where your gitea Server is deployed,
+1. `GITEA_URL` - the domain where your gitea Server is deployed,
    without the protocol, <br />
    e.g: `gitea-server.fly.dev`
 
-2. `gitea_ACCESS_TOKEN` - the REST API Access Token 
+2. `GITEA_ACCESS_TOKEN` - the REST API Access Token 
 See: 
 [gitea-server#connect-via-rest-api-https](https://github.com/dwyl/gitea-server#connect-via-rest-api-https)
 
-3. `gitea_SSH_PORT` - The TCP port allocated to SSH on your gitea Server,
-   in our case it's: `10022`.
-
-4. `gitea_SSH_PRIVATE_KEY_PATH` - absolute path to the `id_rsa` file
-  on your `localhost` or `Phoenix` server instance.
 
 > If you're new to Environment Variables
 > Please see: 
