@@ -17,7 +17,10 @@ defmodule AppWeb.PageController do
     # but logger will output "[error] Gitea.clone/1 tried to clone ..."
     
     # Read the contents of the local version of README.md
+    file_path = Path.join([local_path, file_name]) |> Path.expand()
+    Logger.info("File.exists?(#{file_path}) #{File.exists?(file_path)}")
     {:ok, text} = Gitea.local_file_read(org_name, repo_name, file_name)
+    Logger.info(text)
     lines = String.split(text, "\n")
   
     # Current date time e.g. "2022-05-17 12:42"

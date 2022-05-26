@@ -76,7 +76,6 @@ Save the file and run the `Phoenix` server:
 mix phx.server
 ```
 
-
 Now when you refresh the homepage of the app: 
 http://localhost:4000/ <br />
 You will see something similar to the following:
@@ -106,7 +105,59 @@ Let's do that now!
 
 <br />
 
-## 8. Deploy to Fly.io [Part 2: `ssh`]
+
+## 8. Deploy to Fly.io (Part 2: `ssh`)
+
+In previous section,
+the code to _update_ the `README.md` file 
+on the **`Gitea` Server** (remote repository)
+worked because you added your _personal_ `public`
+SSH key to the **`Gitea` Server**. 
+But if we want it to work on `Fly.io`
+we need to 
+***either*** export our _personal_ **`private` ssh key** 
+to the Fly instance (_probably not what you want to do_)
+***or*** 
+create a ***`new`*** ssh key
+which you can upload to the Fly instance.
+
+### 8.1 Create a _`new`_ ssh key on `localhost`
+
+In your terminal, 
+create a new directory called `keys`
+and append it to your `.gitignore` file:
+
+```sh
+mkdir keys
+echo "keys/*" >> .gitignore 
+```
+
+Next, 
+run the following command 
+to create the new `ssh` keys:
+
+```sh
+ssh-keygen -t ed25519 -C "your.name@gmail.com" -f ./keys/id_ed25519 -q -N ""
+```
+
+> **Note**: the email address optional and only used as label in the `public` key file.
+> You can update it to your email address or leave it blank if you prefer.
+
+
+The `./keys` directory should now contain two files, e.g:
+
+```sh
+keys
+├── id_ed25519
+└── id_ed25519.pub
+```
+
+
+
+
+
+
+
 
 Login to the Fly.io instance via the CLI:
 
@@ -128,7 +179,7 @@ mkdir -p /home/nobody/.ssh/
 Then create an `ssh` key:
 
 ```sh
-ssh-keygen -t ed25519 -C "nelson@gmail.com" -f /home/nobody/.ssh/id_ed25519 -q -N ""
+ssh-keygen -t ed25519 -C "your.name@gmail.com" -f /home/nobody/.ssh/id_ed25519 -q -N ""
 ```
 
 Change the ownership of the key:
@@ -270,6 +321,25 @@ Deploy verbose:
 ```sh
 LOG_LEVEL=debug fly deploy --verbose
 ```
+
+
+## _OPTIONAL_: GitHub CI Continuous Deployment
+
+
+### Add the `private` key to GitHub Secrets
+
+> **Note**: This is why we suggested 
+> you create a `new` ssh key above ...
+
+
+Visit: https://github.com/dwyl/gitea-demo/settings/secrets/actions
+and create a **New repository secret** 
+called **`SSH_PRIVATE_KEY`**
+with the contents of your `keys/id_ed25519` file.
+
+
+
+
 
 <br />
 

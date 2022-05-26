@@ -1,3 +1,12 @@
+Thinking of making a 
+**_Real-Time Collaborative_ Markdown Editor** 
+with **`LiveView`** and  
+backed by **`Gitea`** for version control. 
+This will be quite a lot of work. 
+So if you're interested in seeing this,
+please comment: 
+https://github.com/dwyl/gitea-demo/issues/12
+
 <!-- 
 
 # _Bonus Level_: _Optional_ UI/UX! 💃 

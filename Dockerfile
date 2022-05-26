@@ -82,7 +82,6 @@ ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US:en
 ENV LC_ALL en_US.UTF-8
 
-
 # Create dir for ssh key
 RUN mkdir -p /root/.ssh/
 # copy the keys you've created on your machine
