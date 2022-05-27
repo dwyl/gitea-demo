@@ -190,7 +190,14 @@ RUN ssh-keyscan -H gitea-server.fly.dev > /root/.ssh/known_hosts
 > If you have any doubts/questions, _please_
 > open an issue: 
 > [dwyl/gitea-demo/issues](https://github.com/dwyl/gitea-demo/issues)
-### 8.3 Add the `public` key to `
+
+We recommend simply copying the _whole_ 
+[`Dockerfile`]()
+because we _know_ it works.
+
+<br />
+
+### 8.3 Add the `public` key to the `gitea` server
 
 Open the `keys/id_ed25519.pub` file 
 copy the contents and
@@ -204,27 +211,74 @@ Deploy verbose:
 ```sh
 LOG_LEVEL=debug fly deploy --verbose
 ```
+you should see something similar to the following:
+
+```sh
+ 1 desired, 1 placed, 1 healthy, 0 unhealthy [health checks: 1 total, 1 passing]
+--> v2 deployed successfully
+```
 
 
+### 8.5 Confirm it worked!
 
+Refresh the page of the Fly.io App:
+https://gitea-demo.fly.dev/
+![phoenix-gitea-demo-on-fly io](https://user-images.githubusercontent.com/194400/170707416-62983225-985f-4645-b6bd-5f7376e49ec0.png)
 
+And the gitea _server_ repo:
+https://gitea-server.fly.dev/demo-org/hello-world
+![gitea-demo-file-updated](https://user-images.githubusercontent.com/194400/170707431-323e5d43-a3ee-4419-b37a-bb5fc66858c3.png)
 
+In our case the `README.md` was updated at **`2022-05-18 14:42:03`**.
 
-## _OPTIONAL_: GitHub CI Continuous Deployment
+<br />
 
+## 9. _Optional_: GitHub Actions Continuous Deployment
 
-### Add the `private` key to GitHub Secrets
+If you are deploying your **`Phoenix`** App to Fly.io
+via GitHub Actions CI, 
+you will need to follow these two steps
+1. add the ***`private`*** SSH key as a repository secret
+2. add a few lines to `.github/workflows/ci.yml` to setup the key.
+
+Let's do that now!
+
+### 9.1 Add the `private` key to GitHub Secrets
 
 > **Note**: This is why we suggested 
 > you create a `new` ssh key above ...
 
-
-Visit: https://github.com/dwyl/gitea-demo/settings/secrets/actions
+Visit the settings page for your GitHub Repo,
+e.g: https://github.com/dwyl/gitea-demo/settings/secrets/actions
 and create a **New repository secret** 
 called **`SSH_PRIVATE_KEY`**
 with the contents of your `keys/id_ed25519` file.
 
+Save the secret and move to the next step.
 
+### 9.2 Add SSH key creation step to `ci.yml`
+
+Add the following lines to 
+
+```yml
+- name: Make /keys dir, Create ssh key & Confirm it exists
+  run: | 
+      mkdir keys
+      echo "$SSH_PRIVATE_KEY" > keys/id_ed25519
+      ls -lath keys
+```
+
+See it in context:
+[`.github/workflows/ci.yml`](https://github.com/dwyl/gitea-demo/blob/main/.github/workflows/ci.yml)
+
+Once you have saved the `ci.yml` file,
+you should have automatic continuous deployment enabled for your app. 🚀 
+
+
+Thanks for learning with us!
+If you found this demo/tutorial useful,
+please ⭐ the repo on GitHub: 
+[github.com/dwyl/**gitea-demo**](https://github.com/dwyl/gitea-demo)
 
 
 <br />
