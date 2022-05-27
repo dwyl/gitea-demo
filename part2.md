@@ -1,12 +1,17 @@
+<div align="center">
+
 # Part _Two!_
 
+</div>
+
 In Part 1 of the demo, 
-we focussed on simply rendering
+we focussed on simply _rendering_
 a `README.md` file hosted on `Gitea` 
 in our **`Phoenix`** App.
 
 _Next_ we are going to do 
-something a bit more advanced ...
+something a bit more advanced; 
+_Update_ the file from our **`Phoenix`** App!
 
 ## Prerequisites 
 
@@ -18,7 +23,8 @@ Please see:
 for instructions.
 
 _Test_ your `ssh` connection to the **`gitea` server**
-***before*** continuing. If that's not working, none of the rest will.
+***before*** continuing. <br />
+If that's not working, none of the rest will.
 
 <br />
 
@@ -78,10 +84,10 @@ def index(conn, _params) do
 end
 ```
 
-> **Note**: there's quite a lot of code in that function.
-> Hopefully the inline comments are helpful. 
-> If you have any doubts/questions, _please_
-> open an issue: 
+> **Note**: there's quite a lot of code in that function. <br />
+> Hopefully the inline comments are helpful. <br />
+> If you have any doubts/questions, <br />
+> _please_ open an issue: 
 > [dwyl/gitea-demo/issues](https://github.com/dwyl/gitea-demo/issues)
 
 Save the file and run the `Phoenix` server:
@@ -95,9 +101,11 @@ You will see something similar to the following:
 
 ![gitea-demo-homepage-updated](https://user-images.githubusercontent.com/194400/169069757-754dc222-fc0d-47a7-83dd-0889bfbe7b8d.png)
 
-And if you view the repository on the `Gitea` Server:
-https://gitea-server.fly.dev/demo-org/hello-world <br />
+And if you view the repository on the `Gitea` Server: <br />
+https://gitea-server.fly.dev/demo-org/hello-world
+
 You will see that it was updated:
+
 ![gitea-repo-updaetd](https://user-images.githubusercontent.com/194400/169069920-37014556-2291-482a-bde3-3119bccd3db3.png)
 
 #### 9 Seconds to Update and Re-render a Markdown File? ⏳
@@ -168,7 +176,7 @@ keys
 └── id_ed25519.pub
 ```
 
-Armed with these two files, you can now update the `Dockerfile` 
+With these two files, you can now update the `Dockerfile`.
 
 ### 8.2 Update the `Dockerfile`
 
@@ -191,8 +199,8 @@ RUN ssh-keyscan -H gitea-server.fly.dev > /root/.ssh/known_hosts
 > open an issue: 
 > [dwyl/gitea-demo/issues](https://github.com/dwyl/gitea-demo/issues)
 
-We recommend simply copying the _whole_ 
-[`Dockerfile`]()
+We recommend copying the _whole_ 
+[`Dockerfile`](https://github.com/dwyl/gitea-demo/blob/main/Dockerfile)
 because we _know_ it works.
 
 <br />
@@ -248,10 +256,10 @@ Let's do that now!
 > **Note**: This is why we suggested 
 > you create a `new` ssh key above ...
 
-Visit the settings page for your GitHub Repo,
-e.g: https://github.com/dwyl/gitea-demo/settings/secrets/actions
+Visit the settings page for your GitHub Repo, <br />
+e.g: https://github.com/dwyl/gitea-demo/settings/secrets/actions <br />
 and create a **New repository secret** 
-called **`SSH_PRIVATE_KEY`**
+called **`SSH_PRIVATE_KEY`** <br />
 with the contents of your `keys/id_ed25519` file.
 
 Save the secret and move to the next step.
@@ -279,6 +287,10 @@ Thanks for learning with us!
 If you found this demo/tutorial useful,
 please ⭐ the repo on GitHub: 
 [github.com/dwyl/**gitea-demo**](https://github.com/dwyl/gitea-demo)
+
+If you want _more_, please let us know!
+"vote" with your comments:
+[gitea-demo/issues/12](https://github.com/dwyl/gitea-demo/issues/12)
 
 
 <br />

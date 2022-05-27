@@ -48,10 +48,11 @@ or you can borrow chunks of setup/code.
 
 # _Who_? 👥
 
-This demo is intended for people of all Elixir/Phoenix skill levels. <br />
+The demo is made for people of all Elixir/Phoenix skill levels. <br />
 Following all the steps in this example should take around **`10 minutes`**. <br />
 
 If you get stuck, please _don't suffer_ in silence! <br />
+It's probably something we didn't cover well enough, it's not you! <br />
 **Get help** by opening an issue:
 [**gitea-demo/issues**](https://github.com/dwyl/gitea-demo/issues)
 
@@ -61,15 +62,17 @@ If you get stuck, please _don't suffer_ in silence! <br />
 
 ### 0. Prerequisites 📝 
 
-_Before_ you start,
-make sure you have the following installed:
+***Before*** you start,
+make sure you have the following:
 
 1. `Elixir`: https://elixir-lang.org/install.html <br />
-   New to `Elixir`? see: 
-   [github.com/dwyl/**learn-elixir**](https://github.com/dwyl/learn-elixir)
+  New to `Elixir`? see: 
+  [github.com/dwyl/**learn-elixir**](https://github.com/dwyl/learn-elixir)
 2. `Phoenix`: https://hexdocs.pm/phoenix/installation.html <br />
-   New to `Phoenix`? see:
-   [github.com/dwyl/**learn-phoenix-framework**](https://github.com/dwyl/learn-phoenix-framework)
+  New to `Phoenix`? see:
+  [github.com/dwyl/**learn-phoenix-framework**](https://github.com/dwyl/learn-phoenix-framework)
+3. Access to a `Gitea` Server 
+  e.g: https://github.com/dwyl/gitea-server
 
 <br />
 
@@ -435,7 +438,7 @@ Thank you!
 <hr />
 
 But wait! There's more!!
-See: [**Part Two!**](https://github.com/dwyl/gitea-demo/blob/main/part2.md)
+See: [**Part _Two_!**](https://github.com/dwyl/gitea-demo/blob/main/part2.md)
 
 <br /><br /><br />
 
