@@ -53,7 +53,7 @@ defmodule App.MixProject do
       {:plug_cowboy, "~> 2.5"},
 
       # The star of the show! github.com/dwyl/gitea
-      {:gitea, "~> 1.0.3"},
+      {:gitea, "~> 1.1.0"},
 
       # Check environment variables: github.com/dwyl/envar
       {:envar, "~> 1.0.8"},      

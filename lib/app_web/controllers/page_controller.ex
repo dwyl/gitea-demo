@@ -11,7 +11,8 @@ defmodule AppWeb.PageController do
   
     # # Git clone the remote repo:
     git_repo_url = Gitea.Helpers.remote_url_ssh(org_name, repo_name)
-    local_path = Gitea.clone(git_repo_url)
+    Gitea.clone(git_repo_url)
+    local_path = Gitea.Helpers.local_repo_path(org_name, repo_name)
     Logger.info("local_path: #{local_path}")
     # Note: if the dir already exists it will not "throw" an error,
     # but logger will output "[error] Gitea.clone/1 tried to clone ..."

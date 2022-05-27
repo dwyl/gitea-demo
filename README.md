@@ -213,7 +213,7 @@ file,
 locate the `defp deps do` section and add the following line:
 
 ```elixir
-{:gitea, "~> 0.1.0"},
+{:gitea, "~> 1.1.0"},
 ```
 
 Once you've saved your `mix.exs` file, 
