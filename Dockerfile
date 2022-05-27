@@ -75,23 +75,23 @@ FROM ${RUNNER_IMAGE}
 RUN apt-get update -y && apt-get install -y build-essential git libstdc++6 openssl libncurses5 locales \
   && apt-get clean && rm -f /var/lib/apt/lists/*_*
 
-# Set the locale
+# Set the locale: change to whatever is appropriate for your app
 RUN sed -i '/en_US.UTF-8/s/^# //g' /etc/locale.gen && locale-gen
 
+# For some reason Elixir/Erlang doesn't like it when you don't set a locale ...
 ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US:en
 ENV LC_ALL en_US.UTF-8
 
-# Create dir for ssh key
+# Create dir for ssh key on Fly instance
 RUN mkdir -p /root/.ssh/
-# copy the keys you've created on your machine
+# Copy the keys you've created on your localhost to the Fly instance:
 COPY keys/id_ed25519 /root/.ssh/      
-# Permissions
+# Update permissions of the key so open-ssh doesn't complain
 RUN chmod 600 /root/.ssh/id_ed25519
 
-# add know host gitea server
+# Add the gitea server to known_hosts so no ssh prompting required: 
 RUN ssh-keyscan -H gitea-server.fly.dev > /root/.ssh/known_hosts 
-# RUN ssh -T git@gitea-server.fly.dev -i /home/nobody/.ssh/id_ed25519 -o IdentitiesOnly=yes
 
 WORKDIR "/app"
 
