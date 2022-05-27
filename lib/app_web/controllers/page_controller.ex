@@ -9,7 +9,7 @@ defmodule AppWeb.PageController do
     repo_name = "hello-world"
     file_name = "README.md"
   
-    # # Git clone the remote repo:
+    # # Git clone the existing remote repo:
     git_repo_url = Gitea.Helpers.remote_url_ssh(org_name, repo_name)
     Gitea.clone(git_repo_url)
     local_path = Gitea.Helpers.local_repo_path(org_name, repo_name)
