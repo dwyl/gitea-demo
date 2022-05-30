@@ -1,5 +1,6 @@
 # The directory Mix will write compiled artifacts to.
 /_build/
+build.log
 
 # If you run "mix test --cover", coverage assets end up here.
 /cover/
@@ -32,4 +33,11 @@ app-*.tar
 npm-debug.log
 /assets/node_modules/
 
+# Don't accidentally commit real environment variables
 .env
+
+# Temporary files, for example, from tests.
+/tmp/
+
+# SSH Keys
+keys/*

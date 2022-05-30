@@ -25,24 +25,22 @@ using the
 
 # _Why_? 🤷
 
-We love having _detailed docs and **examples**_
-that explain _exactly_ how to get up-and-running. <br />
+**We love** having **_detailed_ docs** and **examples**
+that **explain _exactly_ how** to get **up-and-running**. 😍 <br />
 **_Comprehensive_ docs/tutorials**
-are a _gift_ to our future selves and teammates. 🎁 
-They allow us to get up-to-speed
-or remember what's going on
-especially when returning to a project after a while.
+are a _gift_ to our future selves and teammates. 🎁  <br />
 We constantly refer back to them 
-and update them when required.
-If you find them useful, please ⭐ the repo to let us know.
+and update them as required. <br />
+If you find them useful, 
+please ⭐ the repo to let us know.
 
 # _What_? 💭
 
 This project is a _barebones_ demonstration
 of using
 [`gitea`](https://github.com/dwyl/gitea)
-in any **`Phoenix`** App. <br />
-It's intended to be beginner-friendly
+in a **`Phoenix`** App. <br />
+Our intention is to be beginner-friendly
 and focus on showcasing **_one_ thing**.
 
 It can be used as the basis for another app
@@ -50,11 +48,13 @@ or you can borrow chunks of setup/code.
 
 # _Who_? 👥
 
-This demo is intended for people of all Elixir/Phoenix skill levels. <br />
+The demo is made for people of all Elixir/Phoenix skill levels. <br />
 Following all the steps in this example should take around **`10 minutes`**. <br />
-If you get stuck, please _don't suffer_ in silence!
+
+If you get stuck, please _don't suffer_ in silence! <br />
+It's probably something we didn't cover well enough, it's not you! <br />
 **Get help** by opening an issue:
-[github.com/dwyl/**gitea-demo/issues**](https://github.com/dwyl/gitea-demo/issues)
+[**gitea-demo/issues**](https://github.com/dwyl/gitea-demo/issues)
 
 <br />
 
@@ -62,15 +62,17 @@ If you get stuck, please _don't suffer_ in silence!
 
 ### 0. Prerequisites 📝 
 
-_Before_ you start,
-make sure you have the following installed:
+***Before*** you start,
+make sure you have the following:
 
 1. `Elixir`: https://elixir-lang.org/install.html <br />
-   New to `Elixir`? see: 
-   [github.com/dwyl/**learn-elixir**](https://github.com/dwyl/learn-elixir)
+  New to `Elixir`? see: 
+  [github.com/dwyl/**learn-elixir**](https://github.com/dwyl/learn-elixir)
 2. `Phoenix`: https://hexdocs.pm/phoenix/installation.html <br />
-   New to `Phoenix`? see:
-   [github.com/dwyl/**learn-phoenix-framework**](https://github.com/dwyl/learn-phoenix-framework)
+  New to `Phoenix`? see:
+  [github.com/dwyl/**learn-phoenix-framework**](https://github.com/dwyl/learn-phoenix-framework)
+3. Access to a `Gitea` Server 
+  e.g: https://github.com/dwyl/gitea-server
 
 <br />
 
@@ -214,7 +216,7 @@ file,
 locate the `defp deps do` section and add the following line:
 
 ```elixir
-{:gitea, "~> 0.1.0"},
+{:gitea, "~> 1.1.0"},
 ```
 
 Once you've saved your `mix.exs` file, 
@@ -236,19 +238,14 @@ See:
 [**`.env_sample`**](https://github.com/dwyl/gitea/blob/main/.env_sample)
 for a sample.
 
-1. `gitea_URL` - the domain where your gitea Server is deployed,
+1. `GITEA_URL` - the domain where your gitea Server is deployed,
    without the protocol, <br />
    e.g: `gitea-server.fly.dev`
 
-2. `gitea_ACCESS_TOKEN` - the REST API Access Token 
+2. `GITEA_ACCESS_TOKEN` - the REST API Access Token 
 See: 
 [gitea-server#connect-via-rest-api-https](https://github.com/dwyl/gitea-server#connect-via-rest-api-https)
 
-3. `gitea_SSH_PORT` - The TCP port allocated to SSH on your gitea Server,
-   in our case it's: `10022`.
-
-4. `gitea_SSH_PRIVATE_KEY_PATH` - absolute path to the `id_rsa` file
-  on your `localhost` or `Phoenix` server instance.
 
 > If you're new to Environment Variables
 > Please see: 
@@ -273,7 +270,7 @@ please see:
 -->
 
 
-### 4. Create Function to Interact with gitea Repo
+### 4. Create Function to Interact with the `gitea` Repo
 
 As noted in the first step above, 
 the homepage of our app 
@@ -295,7 +292,8 @@ end
 ```
 
 Inside the file, 
-replace the `index/2` function with the following:
+replace the `index/2` function 
+with the following:
 
 ```elixir
 def index(conn, _params) do
@@ -307,6 +305,19 @@ def index(conn, _params) do
   render(conn, "index.html", html: raw_html)
 end
 ```
+
+This updated function specifies 3 variables:
+
+1. `org_name`: the organisation/owner name for a repository on the `gitea` server.
+2. `repo_name`: repository name on the `gitea` server
+3. `file_name`: the Markdown file we want to render as HTML.
+
+It invokes the 
+[`Gitea.remote_render_markdown_html/3`](https://hexdocs.pm/gitea/Gitea.html#remote_render_markdown_html/4)
+function that renders the Markdown contained in the `file_name` 
+as `HTML` which can be rendered on a page.
+
+<br />
 
 ### 5. Update the Template to Display the Text
 
@@ -329,23 +340,36 @@ At this point we have demonstrated
 rendering a Markdown (`README.md`)
 file hosted on a `gitea` server
 in a `Phoenix` app using the `gitea` package.
-This is already cool,
+This is _already_ cool,
 but it doesn't even scratch the surface of what's possible!
 
-At this point in the journey, 
-you can either chose 
+Let's _deploy_ the app to 
+[Fly.io](https://fly.io/)
+so that we can _show_ our progress 
+to other people in our team!
 
 
 <br />
 
 ## 6. _Deploy_ to Fly.io 🚀 
 
-The `Dockerfile`, `fly.toml` and `config/runtime.exs` files
-can be used to deploy to Fly.io: 
-https://gitea-demo.fly.dev
-![image](https://user-images.githubusercontent.com/194400/168398126-05c147ef-7fcc-4867-8a05-c89669027674.png)
+We have simplified the steps to deploy a **`Phoenix`** App to Fly.io
+for the sake of brevity. 
+If you are totally new to Fly.io in _general_
+or deploying a **`Phoenix`** App _specifically_,
+Please see: 
+https://fly.io/docs/speedrun/
 
-### Deployment Instructions:
+The `Dockerfile`, `fly.toml` and `config/runtime.exs` files
+can be used to deploy to Fly.io, 
+e.g:
+https://gitea-demo.fly.dev
+
+
+> The `Dockerfile` is inspired by:
+> https://github.com/fly-apps/hello_elixir/blob/main/Dockerfile
+
+### Deployment Instructions:
 
 ```sh
 mix release.init
@@ -357,7 +381,6 @@ mix release.init
 
 Initialize the Fly.io config:
 
-
 ```sh
 fly launch
 ```
@@ -365,7 +388,8 @@ fly launch
 > Select the relevant options.
 
 
-Setup environment variables:
+Setup the required environment variables 
+on Fly using the CLI:
 
 ```sh
 flyctl secrets set GITEA_URL=gitea-server.fly.dev 
@@ -375,7 +399,7 @@ flyctl secrets set SECRET_KEY_BASE=https://hexdocs.pm/phoenix/Mix.Tasks.Phx.Gen.
 
 Deploy:
 ```sh
-flyctl deploy --verbose
+flyctl deploy
 ```
 
 You should see:
@@ -387,72 +411,36 @@ Monitoring Deployment
 1 desired, 1 placed, 1 healthy, 0 unhealthy [health checks: 1 total, 1 passing]
 ```
 
-And when you visit the App in your browser:
+And when you visit the App URL in your browser:
 https://gitea-demo.fly.dev/
 
 ![gitea-demo-on-flyio](https://user-images.githubusercontent.com/194400/168806932-d5d405a6-4d3a-41e1-9ac1-038f083d74c9.png)
 
+<br/>
 
-That concludes our _basic_ demo.
-If you found it useful, 
+## Conclusion!
+
+That concludes our **_basic_ demo**.
+What we covered:
+1. Setup a new **`Phoenix`** App
+2. Added the **`gitea`** dependency
+3. Added the required environment variables
+4. Created code to render a markdown file 
+  using the `Gitea.remote_render_markdown_html/3` function.
+5. Deployed the demo to Fly.io!
+
+
+If you found this demo/tutorial useful, 
 please ⭐ the repo to let us know.
 
+Thank you!
+
+<hr />
+
+But wait! There's more!!
+See: [**Part _Two_!**](https://github.com/dwyl/gitea-demo/blob/main/part2.md)
 
 <br /><br /><br />
 
-<!-- 
 
-# _Bonus Level_: _Optional_ UI/UX! 💃 
-
-
-
-#### ⚠️ Warning: the next 2 steps will _temporarily_ "break" the Phoenix app. Be patient and keep going!
-
-
-## 4. Create 2 New Files ➕
-
-Create two new directories`lib/app_web/live`
-
-e.g:
-
-```sh
-mkdir lib/app_web/live
-mkdir 
-```
-
-
-
-Create 2 new file with the following paths:
-1. 
-
-### Note on **`Phoenix`** **`LiveView`**
-
-In this demo we will be using **`Phoenix`** **`LiveView`**
-because we feel that the programming model 
-is simpler than "MVC" 
-from a dev perspective. 
-
-If you are new to **`LiveView`**,
-please see our complete beginners' tutorial:
-[github.com/dwyl/**phoenix-liveview-counter-tutorial**](https://github.com/dwyl/phoenix-liveview-counter-tutorial)
-
-
-
-### The Repo!
-
-https://gitea-server.fly.dev/demo-org/gitea-demo
-
-
-
-
-### 
-
-This Rich Text Editor is based off our work in:
-[github.com/nelsonic/amemo](https://github.com/nelsonic/amemo/tree/3a3872663698d93abe29a75add462a7f4285ac26)
-
-
-## Checkpoint: Working on `localhost` 🏁 
-
-
--->
 
