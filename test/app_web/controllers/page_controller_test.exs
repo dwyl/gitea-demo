@@ -2,7 +2,8 @@ defmodule AppWeb.PageControllerTest do
   use AppWeb.ConnCase
 
   test "GET /", %{conn: conn} do
-    Useful.empty_dir_contents(Envar.get("GIT_TEMP_DIR_PATH"))
+    # Useful.empty_dir_contents(Envar.get("GIT_TEMP_DIR_PATH"))
+    # Gitea.GitMock.clone("test")
     conn = get(conn, "/")
     assert html_response(conn, 200) =~ "Get Started"
   end

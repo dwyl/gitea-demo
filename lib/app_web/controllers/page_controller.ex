@@ -3,7 +3,6 @@ defmodule AppWeb.PageController do
 
   require Logger
 
-
   def index(conn, _params) do
     org_name = "demo-org"
     repo_name = "hello-world"
