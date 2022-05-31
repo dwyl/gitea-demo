@@ -3,7 +3,7 @@
 # Gitea _Demo_
 
 <img alt="Gitea" src="https://user-images.githubusercontent.com/194400/168781665-a52d2c00-8b69-44ae-a10a-7bd1c3932020.svg" width="240"/>
-    
+
 
 A fully functional **demo** app
 showing interaction between an<br />
@@ -29,9 +29,9 @@ using the
 that **explain _exactly_ how** to get **up-and-running**. 😍 <br />
 **_Comprehensive_ docs/tutorials**
 are a _gift_ to our future selves and teammates. 🎁  <br />
-We constantly refer back to them 
+We constantly refer back to them
 and update them as required. <br />
-If you find them useful, 
+If you find them useful,
 please ⭐ the repo to let us know.
 
 # _What_? 💭
@@ -60,23 +60,23 @@ It's probably something we didn't cover well enough, it's not you! <br />
 
 # _How?_ 💻
 
-### 0. Prerequisites 📝 
+### 0. Prerequisites 📝
 
 ***Before*** you start,
 make sure you have the following:
 
 1. `Elixir`: https://elixir-lang.org/install.html <br />
-  New to `Elixir`? see: 
+  New to `Elixir`? see:
   [github.com/dwyl/**learn-elixir**](https://github.com/dwyl/learn-elixir)
 2. `Phoenix`: https://hexdocs.pm/phoenix/installation.html <br />
   New to `Phoenix`? see:
   [github.com/dwyl/**learn-phoenix-framework**](https://github.com/dwyl/learn-phoenix-framework)
-3. Access to a `Gitea` Server 
+3. Access to a `Gitea` Server
   e.g: https://github.com/dwyl/gitea-server
 
 <br />
 
-### 1. Create a New `Phoenix` App 🆕 
+### 1. Create a New `Phoenix` App 🆕
 
 For this example,
 we are creating a _basic_ **`Phoenix`** App
@@ -105,7 +105,7 @@ You should see something like this:
 * running mix deps.compile
 ```
 
-#### Checkpoint: Working `Phoenix` App 🏁 
+#### Checkpoint: Working `Phoenix` App 🏁
 
 Change into the directory of your newly created `Phoenix` app
 
@@ -142,7 +142,7 @@ So far so good. 👌 <br />
 
 #### 1.1 Clear out `page` template
 
-Before we continue, 
+Before we continue,
 let's do a clear out of the `page` template:
 `lib/app_web/templates/page/index.html.heex`
 
@@ -208,32 +208,34 @@ let's crack on with the actual demo!
 
 <br />
 
-### 2. Add `gitea` to `deps` ⬇️ 
+### 2. Add `gitea` to `deps` ⬇️
 
-Open the 
-[`mix.exs`]()
-file,
+Open the
+[`mix.exs`](https://github.com/dwyl/gitea-demo/blob/main/mix.exs)
+file in the root of your `app` folder,
 locate the `defp deps do` section and add the following line:
 
 ```elixir
 {:gitea, "~> 1.1.0"},
 ```
 
-Once you've saved your `mix.exs` file, 
+Once you've saved your `mix.exs` file,
 e.g:
 [`mix.exs#L55-L56`](https://github.com/dwyl/gitea-demo/blob/58c6bf0f7b96a370f6a90408526f6e335014025a/mix.exs#L55-L56) <br />
-run: 
+
+run:
+
 ```sh
 mix deps.get
 ```
 
-With the dependency installed, 
+With the dependency installed,
 we can now setup.
 
 ### 3. Setup: Environment Variables 📝
 
 To get the **`gitea`** package working in your **`Phoenix`** App,
-you will need **4 environment variables**.
+you will need **2 environment variables**.
 See:
 [**`.env_sample`**](https://github.com/dwyl/gitea/blob/main/.env_sample)
 for a sample.
@@ -242,13 +244,28 @@ for a sample.
    without the protocol, <br />
    e.g: `gitea-server.fly.dev`
 
-2. `GITEA_ACCESS_TOKEN` - the REST API Access Token 
-See: 
+2. `GITEA_ACCESS_TOKEN` - the REST API Access Token
+Instructions for getting your token:
 [gitea-server#connect-via-rest-api-https](https://github.com/dwyl/gitea-server#connect-via-rest-api-https)
 
+#### 3.1 Create your `.env` File
+
+Create a new file in root the `app` project called `.env`.
+Copy the contents of the
+[**`.env_sample`**](https://github.com/dwyl/gitea/blob/main/.env_sample)
+file and paste it in the `.env` file.
+
+Update the _values_ of the environment variables with the real ones.
+Run the following command in your terminal (in the root of your project):
+
+```sh
+source .env
+```
+
+This will export the environment variables into your terminal environment.
 
 > If you're new to Environment Variables
-> Please see: 
+> Please see:
 > [github.com/dwyl/**learn-environment-variables**](https://github.com/dwyl/learn-environment-variables)
 
 
@@ -258,8 +275,8 @@ In _our_ case our **`gitea`** Server instance
 is deployed to [fly.io](https://fly.io/)
 at:
 [gitea-server.fly.dev](https://gitea-server.fly.dev/) <br />
-To understand how this was deployed, 
-please see: 
+To understand how this was deployed,
+please see:
 [github.com/dwyl/**gitea-server**](https://github.com/dwyl/gitea-server)
 
 
@@ -272,8 +289,8 @@ please see:
 
 ### 4. Create Function to Interact with the `gitea` Repo
 
-As noted in the first step above, 
-the homepage of our app 
+As noted in the first step above,
+the homepage of our app
 is the default `Phoenix` homepage.
 
 In this section we're going to change that!
@@ -291,8 +308,8 @@ defmodule AppWeb.PageController do
 end
 ```
 
-Inside the file, 
-replace the `index/2` function 
+Inside the file,
+replace the `index/2` function
 with the following:
 
 ```elixir
@@ -300,7 +317,7 @@ def index(conn, _params) do
   org_name = "demo-org"
   repo_name = "hello-world"
   file_name = "README.md"
-  {:ok, %{body: raw_html}} = 
+  {:ok, %{body: raw_html}} =
     Gitea.remote_render_markdown_html(org_name, repo_name, file_name)
   render(conn, "index.html", html: raw_html)
 end
@@ -312,9 +329,9 @@ This updated function specifies 3 variables:
 2. `repo_name`: repository name on the `gitea` server
 3. `file_name`: the Markdown file we want to render as HTML.
 
-It invokes the 
+It invokes the
 [`Gitea.remote_render_markdown_html/3`](https://hexdocs.pm/gitea/Gitea.html#remote_render_markdown_html/4)
-function that renders the Markdown contained in the `file_name` 
+function that renders the Markdown contained in the `file_name`
 as `HTML` which can be rendered on a page.
 
 <br />
@@ -336,32 +353,32 @@ Now you will see the `Markdown` rendered in the template:
 
 #### Recap!
 
-At this point we have demonstrated 
+At this point we have demonstrated
 rendering a Markdown (`README.md`)
 file hosted on a `gitea` server
 in a `Phoenix` app using the `gitea` package.
 This is _already_ cool,
 but it doesn't even scratch the surface of what's possible!
 
-Let's _deploy_ the app to 
+Let's _deploy_ the app to
 [Fly.io](https://fly.io/)
-so that we can _show_ our progress 
+so that we can _show_ our progress
 to other people in our team!
 
 
 <br />
 
-## 6. _Deploy_ to Fly.io 🚀 
+## 6. _Deploy_ to Fly.io 🚀
 
 We have simplified the steps to deploy a **`Phoenix`** App to Fly.io
-for the sake of brevity. 
+for the sake of brevity.
 If you are totally new to Fly.io in _general_
 or deploying a **`Phoenix`** App _specifically_,
-Please see: 
+Please see:
 https://fly.io/docs/speedrun/
 
 The `Dockerfile`, `fly.toml` and `config/runtime.exs` files
-can be used to deploy to Fly.io, 
+can be used to deploy to Fly.io,
 e.g:
 https://gitea-demo.fly.dev
 
@@ -375,8 +392,8 @@ https://gitea-demo.fly.dev
 mix release.init
 ```
 
-> Borrow the init from an app that we've deployed before. 
-> e.g: 
+> Borrow the init from an app that we've deployed before.
+> e.g:
 > https://github.com/dwyl/gitea-demo/pull/1/commits/9bb69a57364ac51e0ce5ba84106954d2c7a5377f
 
 Initialize the Fly.io config:
@@ -388,11 +405,11 @@ fly launch
 > Select the relevant options.
 
 
-Setup the required environment variables 
+Setup the required environment variables
 on Fly using the CLI:
 
 ```sh
-flyctl secrets set GITEA_URL=gitea-server.fly.dev 
+flyctl secrets set GITEA_URL=gitea-server.fly.dev
 flyctl secrets set GITEA_ACCESS_TOKEN=your-token-here
 flyctl secrets set SECRET_KEY_BASE=https://hexdocs.pm/phoenix/Mix.Tasks.Phx.Gen.Secret.html
 ```
@@ -425,12 +442,12 @@ What we covered:
 1. Setup a new **`Phoenix`** App
 2. Added the **`gitea`** dependency
 3. Added the required environment variables
-4. Created code to render a markdown file 
+4. Created code to render a markdown file
   using the `Gitea.remote_render_markdown_html/3` function.
 5. Deployed the demo to Fly.io!
 
 
-If you found this demo/tutorial useful, 
+If you found this demo/tutorial useful,
 please ⭐ the repo to let us know.
 
 Thank you!
@@ -441,6 +458,3 @@ But wait! There's more!!
 See: [**Part _Two_!**](https://github.com/dwyl/gitea-demo/blob/main/part2.md)
 
 <br /><br /><br />
-
-
-
