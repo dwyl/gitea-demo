@@ -295,4 +295,4 @@ If you want _more_, please let us know!
 
 <br />
 
-[![HitCount](http://hits.dwyl.com/dwyl/gitea-demo-part2.svg)](http://hits.dwyl.com/dwyl/gitea-demo)
+[![HitCount](https://hits.dwyl.com/dwyl/gitea-demo-part2.svg)](https://hits.dwyl.com/dwyl/gitea-demo)
