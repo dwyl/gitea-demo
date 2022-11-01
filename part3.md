@@ -9,7 +9,7 @@ https://github.com/dwyl/gitea-demo/issues/12
 
 <br />
 
-[![HitCount](http://hits.dwyl.com/dwyl/gitea-demo-part3.svg)](http://hits.dwyl.com/dwyl/gitea-demo)
+[![HitCount](https://hits.dwyl.com/dwyl/gitea-demo-part3.svg)](https://hits.dwyl.com/dwyl/gitea-demo)
 
 <!-- NOTE: This is commented out, but is a starting point for https://github.com/dwyl/gitea-demo/issues/12
 
